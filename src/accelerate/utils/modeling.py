@@ -523,7 +523,7 @@ def get_balanced_memory(
                 no_split_children[class_name] = size
 
             if set(no_split_children.keys()) == set(no_split_module_classes):
-                break
+                mean_leaves = int(sum([module_sizes[n] for n in leaves]) / ( len(leaves) or 1) )
         buffer = max(no_split_children.values()) if len(no_split_children) > 0 else 0
     else:
         buffer = 0
