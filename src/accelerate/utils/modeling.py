@@ -523,7 +523,7 @@ def get_balanced_memory(
                 no_split_children[class_name] = size
 
             if set(no_split_children.keys()) == set(no_split_module_classes):
-                mean_leaves = int(sum([module_sizes[n] for n in leaves]) / ( len(leaves) or 1) )
+                break
         buffer = max(no_split_children.values()) if len(no_split_children) > 0 else 0
     else:
         buffer = 0
@@ -533,7 +533,7 @@ def get_balanced_memory(
     module_sizes = {n: v for n, v in module_sizes.items() if n not in leaves}
     # Once removed, leaves are the final modules.
     leaves = [n for n in module_sizes if len([p for p in module_sizes if n == "" or p.startswith(n + ".")]) == 0]
-    mean_leaves = int(sum([module_sizes[n] for n in leaves]) / len(leaves))
+    mean_leaves = int(sum([module_sizes[n] for n in leaves]) / ( len(leaves) or 1) )
     buffer = int(1.25 * max(buffer, mean_leaves))
     per_gpu += buffer
 
